@@ -9,6 +9,8 @@ from sklearn.linear_model import LogisticRegression
 import pandas as pd
 import numpy as np
 import joblib
+from sklearn.metrics import accuracy_score,classification_report
+from sklearn.model_selection import cross_val_score
 model=joblib.load('model.pkl')
 df=sns.load_dataset("penguins")
 def About_Model():
@@ -35,9 +37,9 @@ def About_Model():
     ])
     pipeline.fit(X_train, y_train)
     y_pred=pipeline.predict(X_test)
-    from sklearn.metrics import accuracy_score,classification_report
+    
     st.write("**I built a logistic regression model to classify penguin species using features like island, bill length, bill depth, flipper length, and body mass. The model takes these inputs, applies preprocessing (like one-hot encoding, log transform, and scaling), and predicts whether the penguin is Adelie, Gentoo, or Chinstrap. This model helps in understanding how physical traits relate to species classification.**")
-    from sklearn.model_selection import cross_val_score
+    
     st.write("**Cross Val Score :**")
     st.code(cross_val_score(pipeline,X,y,scoring='accuracy',cv=5))
     st.write("**Model Accuracy :**")
@@ -48,7 +50,7 @@ def About_Model():
 def Time_to_predict():
     st.title("Time To Predict")
     
-    import joblib
+    
     model=joblib.load('model.pkl')
     st.subheader("Enter Parameters")
     island = st.selectbox("Select Island", ['Biscoe', 'Dream', 'Torgersen'])

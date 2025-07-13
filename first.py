@@ -28,12 +28,12 @@ def About_Model():
     num_cols = ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
     preprocessor = ColumnTransformer(transformers=[
         ('island_ohe', OneHotEncoder(drop='first'), island_col),
-        ('log_body_mass', FunctionTransformer(np.log1p, feature_names_out='one-to-one'), log_col),
+        ('log_body_mass', FunctionTransformer(np.log1p), log_col),
         ('scaler', StandardScaler(), num_cols)
-    ], remainder='drop')
+    ], remainder='passthrough')
     pipeline = Pipeline(steps=[
         ('preprocessing', preprocessor),
-        ('classifier', LogisticRegression(max_iter=1000))
+        ('classifier', LogisticRegression(max_iter=1000,multi_class='multinomial',solver='lbfgs'))
     ])
     pipeline.fit(X_train, y_train)
     y_pred=pipeline.predict(X_test)
